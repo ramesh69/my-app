@@ -3,15 +3,20 @@ package com.example.application.data.entity;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+
 @Entity
 public class SamplePerson extends AbstractEntity {
 
     private String firstName;
     private String lastName;
+    private String Username;
     private String email;
     private String phone;
     private LocalDate dateOfBirth;
     private String occupation;
+    private String password;
+    private String confPassword;
     private boolean important;
 
     public String getFirstName() {
@@ -23,9 +28,32 @@ public class SamplePerson extends AbstractEntity {
     public String getLastName() {
         return lastName;
     }
-    public void setLastName(String lastName) {
+     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    public void setUsername(String Username){
+        this.Username = Username;
+    }
+    public String getUsername(){
+        return Username;
+    }
+   
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public String getPassword(){
+        return password;
+    }
+    public void setConfirmpassword(String confpassword) {
+        this.confPassword = confpassword;
+    }
+    public String getConfirmpassword(){
+        return confPassword;
+    }
+    
+   
+    
+   
     public String getEmail() {
         return email;
     }

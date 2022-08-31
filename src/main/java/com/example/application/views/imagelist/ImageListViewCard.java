@@ -1,10 +1,15 @@
 package com.example.application.views.imagelist;
 
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
+import antlr.debug.Event;
+import net.bytebuddy.utility.privilege.SetAccessibleAction;
 
 public class ImageListViewCard extends ListItem {
 
@@ -35,10 +40,9 @@ public class ImageListViewCard extends ListItem {
                 "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.");
         description.addClassName("my-m");
 
-        Span badge = new Span();
-        badge.getElement().setAttribute("theme", "badge");
-        badge.setText("Label");
-
+        Button badge = new Button("click", event->UI.getCurrent().navigate("Login"));
+       
+               
         add(div, header, subtitle, description, badge);
 
     }

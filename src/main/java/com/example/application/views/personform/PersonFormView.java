@@ -4,6 +4,7 @@ import com.example.application.data.entity.SamplePerson;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -17,31 +18,42 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.component.orderedlayout.*;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 
 @PageTitle("Person Form")
-@Route(value = "person-form", layout = MainLayout.class)
+@Route(value = "person-form")
 @Uses(Icon.class)
-public class PersonFormView extends Div {
+public class PersonFormView extends VerticalLayout implements BeforeEnterObserver {
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
+    private TextField Username = new TextField("User Name");
     private EmailField email = new EmailField("Email address");
     private DatePicker dateOfBirth = new DatePicker("Birthday");
     private PhoneNumberField phone = new PhoneNumberField("Phone number");
     private TextField occupation = new TextField("Occupation");
+    private PasswordField Password = new PasswordField("Passowrd");
+    private PasswordField ConfPassword = new PasswordField("Confirm Passowrd");
 
-    private Button cancel = new Button("Cancel");
-    private Button save = new Button("Save");
+    private Button cancel = new Button("Clear");
+    private Button save = new Button("Register");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
 
     public PersonFormView(SamplePersonService personService) {
-        addClassName("person-form-view");
-
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        setSizeFull(); 
+        addClassName("person-form-view");        
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
@@ -53,22 +65,25 @@ public class PersonFormView extends Div {
         save.addClickListener(e -> {
             personService.update(binder.getBean());
             Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
+            UI.getCurrent().navigate("Home");
             clearForm();
         });
     }
+
+  
 
     private void clearForm() {
         binder.setBean(new SamplePerson());
     }
 
     private Component createTitle() {
-        return new H3("Personal information");
+        return new H3("Registration Form");
     }
 
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName, dateOfBirth, phone, email, occupation);
+        formLayout.add(firstName, lastName,Username, dateOfBirth, phone, email, occupation,Password,ConfPassword);
         return formLayout;
     }
 
@@ -124,5 +139,10 @@ public class PersonFormView extends Div {
             }
         }
     }
+    
+    @Override
+	public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+		
+	}
 
 }
